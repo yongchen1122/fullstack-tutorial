@@ -28,14 +28,14 @@ jobs:
       # deploy app            
       - run:
           name: Deploy application 
-          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
+          command: sls deploy -v --region $AWS_DEFAULT_REGION
 
 #      - save_cache:
 #          paths:
 #            - node_modules
 #          key: dependencies-cache-{{ checksum "package.json" }}
 
-workflows:cd server &&
+workflows:
   version: 2
   Build and Test:
     jobs:
