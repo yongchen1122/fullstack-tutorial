@@ -36,12 +36,5 @@ jobs:
 workflows:
   version: 2
   Build and Test:
-    triggers:
-       - schedule:
-           cron: "0 18 17 * *"
-           filters:
-             branches:
-               only:
-                 - master
     jobs:
       - Apollo Server
