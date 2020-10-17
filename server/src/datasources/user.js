@@ -128,7 +128,7 @@ class UserAPI extends DataSource {
 
     // Save the profile image URL in the DB and return the updated user
     return this.context.user.update({
-      profileImage: `https://${AWS_S3_BUCKET}.s3.us-west-2.amazonaws.com/${filename}`
+      profileImage: `https://${AWS_S3_BUCKET}.s3.ap-southeast-2.amazonaws.com/${filename}`
     });
   }
 }
