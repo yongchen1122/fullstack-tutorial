@@ -7,12 +7,28 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
-  dynamodbLocalhost: ${opt:dynamodbLocalhost, ''}
+  region: ap-southeast-2
+#  dynamodbLocalhost: ${opt:dynamodbLocalhost, ''}
+  environment:
+    DYNAMODB_TABLE_USER: ${self:service}-${self:provider.stage}-user
+    DYNAMODB_TABLE_TRIP: ${self:service}-${self:provider.stage}-trip
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_USER}"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_TRIP}"  
 functions:
   graphql:
     handler: src/index.graphqlHandler
-    environment:
-      DYNAMODB_LOCALHOST: ${self:provider.dynamodbLocalhost}
+#    environment:
+#      DYNAMODB_LOCALHOST: ${self:provider.dynamodbLocalhost}
     events:
     - http:
         path: graphql
@@ -22,3 +38,47 @@ functions:
         path: graphql
         method: get
         cors: true
+resources:
+  Resources:
+    users:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: INTEGER
+          - AttributeName: email
+            AttributeType: STRING
+          - AttributeName: createdAt
+            AttributeType: DATE
+          - AttributeName: updatedAt
+            AttributeType: DATE
+          - AttributeName: profileImage
+            AttributeType: STRING
+          - AttributeName: token
+            AttributeType: STRING
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_USER}
+    trip:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: launchId
+            AttributeType: INTEGER
+          - AttributeName: createdAt
+            AttributeType: DATE
+          - AttributeName: updatedAt
+            AttributeType: DATE
+          - AttributeName: userId
+            AttributeType: INTEGER
+        KeySchema:
+          - AttributeName: launchId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_TRIP}
