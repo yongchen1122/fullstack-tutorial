@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
 
-      - run: cd server && sudo npm i -g jest 
-      - run: npm test --coverage
+      - run: cd server && sudo npm i -g jest
+      - run: cd server && npm test --coverage
 
       # Download and cache dependencies
       - restore_cache:
