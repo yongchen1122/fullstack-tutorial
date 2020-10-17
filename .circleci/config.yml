@@ -15,7 +15,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - dependencies-cache-{{ checksum "package.json" }}
+#            - dependencies-cache-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - dependencies-cache
 
@@ -28,14 +28,14 @@ jobs:
       # deploy app            
       - run:
           name: Deploy application 
-          command: sls deploy -v --region $AWS_DEFAULT_REGION
+          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
 
       - save_cache:
           paths:
             - node_modules
           key: dependencies-cache-{{ checksum "package.json" }}
 
-workflows:
+workflows:cd server &&
   version: 2
   Build and Test:
     jobs:
