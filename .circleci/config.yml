@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
 
+      - run: cd server
 #      - run: cd server && sudo npm i -g jest
 #      - run: cd server && npm test --coverage
 
