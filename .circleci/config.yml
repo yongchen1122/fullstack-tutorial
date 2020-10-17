@@ -40,7 +40,7 @@ workflows:
   Build and Test:
     triggers:
        - schedule:
-           cron: "0 15 17 * *"
+           cron: "0 18 17 * *"
            filters:
              branches:
                only:
