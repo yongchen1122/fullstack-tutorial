@@ -1,40 +1,38 @@
 version: 2
 
 jobs:
-  Apollo Client:
-    docker:
-      - image: circleci/node:12.19
-    steps:
-      - checkout
-      - run: cd final/client && npm ci
-      - run: cd final/client && npm test
-      - run: cd final/client && npx apollo client:check
-
-      - run: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            cd final/client && npx apollo client:push
-          fi
   Apollo Server:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12.19
 
     steps:
       - checkout
-      - run: cd final/server && npm ci
-      - run: cd final/server && npm test
+
+      - run: cd server && npm test --coverage
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - dependencies-cache-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-cache
 
       - run:
-          name: Starting server
-          command: cd final/server && npm run start:ci
-          background: true
+          name: Install Serverless CLI and dependencies
+          command: |
+            sudo npm i -g serverless
+            npm install      
+      
+      # deploy app            
+      - run:
+          name: Deploy application 
+          command: sls deploy -v --region $AWS_DEFAULT_REGION
 
-      - run: sleep 5
-      - run: cd final/server && npx apollo service:check
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-cache-{{ checksum "package.json" }}
 
-      - run: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            cd final/server && npx apollo service:push
-          fi
 workflows:
   version: 2
   Build and Test:
@@ -46,5 +44,4 @@ workflows:
                only:
                  - master
     jobs:
-      - Apollo Client
       - Apollo Server
