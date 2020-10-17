@@ -45,17 +45,17 @@ resources:
       Properties:
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: INTEGER
+            AttributeType: N
           - AttributeName: email
-            AttributeType: STRING
+            AttributeType: S
           - AttributeName: createdAt
-            AttributeType: DATE
+            AttributeType: S
           - AttributeName: updatedAt
-            AttributeType: DATE
+            AttributeType: S
           - AttributeName: profileImage
-            AttributeType: STRING
+            AttributeType: S
           - AttributeName: token
-            AttributeType: STRING
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -68,13 +68,13 @@ resources:
       Properties:
         AttributeDefinitions:
           - AttributeName: launchId
-            AttributeType: INTEGER
+            AttributeType: N
           - AttributeName: createdAt
-            AttributeType: DATE
+            AttributeType: S
           - AttributeName: updatedAt
-            AttributeType: DATE
+            AttributeType: S
           - AttributeName: userId
-            AttributeType: INTEGER
+            AttributeType: N
         KeySchema:
           - AttributeName: launchId
             KeyType: HASH
