@@ -46,16 +46,6 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: N
-          - AttributeName: email
-            AttributeType: S
-          - AttributeName: createdAt
-            AttributeType: S
-          - AttributeName: updatedAt
-            AttributeType: S
-          - AttributeName: profileImage
-            AttributeType: S
-          - AttributeName: token
-            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -68,12 +58,6 @@ resources:
       Properties:
         AttributeDefinitions:
           - AttributeName: launchId
-            AttributeType: N
-          - AttributeName: createdAt
-            AttributeType: S
-          - AttributeName: updatedAt
-            AttributeType: S
-          - AttributeName: userId
             AttributeType: N
         KeySchema:
           - AttributeName: launchId
