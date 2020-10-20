@@ -25,11 +25,11 @@ jobs:
             npm install
 
       # deploy app
-      - run:
-          name: Deploy application
-          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
+#      - run:
+#          name: Deploy application
+#          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
 
-      # remove app
+# remove app
 #      - run:
 #          name: Remove serverless
 #          command: cd server && sls remove
@@ -42,12 +42,5 @@ jobs:
 workflows:
   version: 2
   Build and Test:
-    triggers:
-      - schedule:
-          cron: "0 0 0 5 0"
-          filters:
-            branches:
-              only:
-                - master
     jobs:
       - Apollo Server
