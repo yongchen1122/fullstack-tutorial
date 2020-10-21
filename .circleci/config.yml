@@ -25,9 +25,9 @@ jobs:
             npm install
 
       # deploy app
-#      - run:
-#          name: Deploy application
-#          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
+      - run:
+          name: Deploy application
+          command: cd server && sls deploy -v --region $AWS_DEFAULT_REGION
 
 # remove app
 #      - run:
